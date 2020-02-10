@@ -83,8 +83,8 @@ jobs:
       run: |
         cd friendlywrt-h5/friendlywrt
         rm -f ./.config*
-        wget https://raw.githubusercontent.com/skytotwo/NanoPi-R1S-Build-By-Actions/master/r1s-h5-config
-        cp r1s-h5-config .config
+        wget https://raw.githubusercontent.com/https://github.com/lxpcwl/AutoBuild-OpenWrt/blob/master/NanoPi-R1S-H5.config
+        cp NanoPi-R1S-H5.config .config
       
     - name: Download package
       if: always()
