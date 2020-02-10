@@ -77,11 +77,12 @@ jobs:
           cd friendlywrt-h5/friendlywrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+          
     - name: Costom Configure File
       run: |
           cd friendlywrt-h5/friendlywrt
           rm -f ./.config*
-          wget https://github.com/lxpcwl/AutoBuild-OpenWrt/blob/master/NanoPi-R1S-H5.config
+          wget https://raw.githubusercontent.com/lxpcwl/AutoBuild-OpenWrt/blob/master/NanoPi-R1S-H5.config
           cp NanoPi-R1S-H5.config
       
     - name: Download package
@@ -106,6 +107,7 @@ jobs:
           rm -rf ./artifact/
           mkdir -p ./artifact/
           find friendlywrt-h5/out/ -name "FriendlyWrt_*img.zip*" | xargs -i mv -f {} ./artifact/
+          
     - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
