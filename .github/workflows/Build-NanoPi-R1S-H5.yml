@@ -78,7 +78,7 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
     
-    - name: Configuration Customization - NanoPi-R1S-H5
+    - name: Configuration Customization - Build-NanoPi-R1S-H5
       env:
         CONFIG_FILE: 'NanoPi-R1S-H5.config'
       run: |
