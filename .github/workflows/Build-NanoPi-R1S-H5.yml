@@ -77,28 +77,37 @@ jobs:
           cd friendlywrt-h5/friendlywrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-    
-    - name: Configuration Customization - Build-NanoPi-R1S-H5
-      env:
-        CONFIG_FILE: 'NanoPi-R1S-H5.config'
+    - name: Costom Configure File
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x ./customize.sh && ./customize.sh
-        cd openwrt && make defconfig
-        
+          cd friendlywrt-h5/friendlywrt
+          rm -f ./.config*
+          wget https://github.com/lxpcwl/AutoBuild-OpenWrt/blob/master/NanoPi-R1S-H5.config
+          cp NanoPi-R1S-H5.config
+      
     - name: Download package
-      working-directory: ./openwrt
+      if: always()
       run: |
-        make download -j$(nproc)
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
-    - name: Build firmware
-      working-directory: ./openwrt
+          cd friendlywrt-h5/friendlywrt
+          make download -j8
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
+          
+    - name: Build OpenWrt
       run: |
-        echo -e "$(nproc) thread build."
-        make -j$(nproc) V=s
-    - name : Upload artifact
+          cd friendlywrt-h5
+          ./build.sh nanopi_r1s.mk
+      
+    - name: Zip Files
+      run: |
+          find friendlywrt-h5/out/ -name "FriendlyWrt_*img*" | xargs -i zip -r {}.zip {}
+          
+    - name: Assemble Artifact
+      run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find friendlywrt-h5/out/ -name "FriendlyWrt_*img.zip*" | xargs -i mv -f {} ./artifact/
+    - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt
-        path: openwrt/bin
+          name: FriendlyWrt_NanoPi-R1S-H5
+          path: ./artifact/       
