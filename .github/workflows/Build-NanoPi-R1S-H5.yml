@@ -83,7 +83,7 @@ jobs:
       run: |
         cd friendlywrt-h5/friendlywrt
         rm -f ./.config*
-        wget https://raw.githubusercontent.com/https://github.com/lxpcwl/AutoBuild-OpenWrt/blob/master/NanoPi-R1S-H5.config
+        wget https://github.com/lxpcwl/AutoBuild-OpenWrt/blob/master/NanoPi-R1S-H5.config
         cp NanoPi-R1S-H5.config .config
       
     - name: Download package
