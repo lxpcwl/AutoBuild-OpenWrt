@@ -60,9 +60,8 @@ jobs:
       run: 
         git clone https://github.com/Lienol/openwrt
         git clone https://github.com/Lienol/openwrt-package
-        cd lede
-        cp -r ../openwrt/package/diy package/
-        cp -r ../openwrt-package/lienol/luci-app-passwall package/
+        cp -r ../openwrt/package/diy ../lede/package/
+        cp -r ../openwrt-package/lienol/luci-app-passwall ../lede/package/
 
     - name: Update & Install feeds
       working-directory: ./openwrt
