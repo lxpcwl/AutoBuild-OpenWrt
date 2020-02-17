@@ -62,7 +62,6 @@ jobs:
         cd lxp
         git clone https://github.com/Lienol/openwrt
         git clone https://github.com/Lienol/openwrt-package
-        cd ..
         cp -r ../lxp/openwrt/package/diy ../openwrt/package/
         cp -r ../lxp/openwrt-package/lienol/luci-app-passwall ../openwrt/package/
 
