@@ -1,4 +1,4 @@
-name: Build_x86_64
+name: N1
 
 on: 
   release:
