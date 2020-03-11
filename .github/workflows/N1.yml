@@ -49,4 +49,4 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: docker-img-openwrt-aarch64
-        path: ./artifact/
+        path: opt/imgs/docker/docker-img-openwrt-aarch64-R20.3.7.gz
