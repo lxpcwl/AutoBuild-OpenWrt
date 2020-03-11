@@ -42,11 +42,18 @@ jobs:
         
     - name: unzip files & Run build.sh
       run: |
+        cd /opt/docker
         tar xvf make_opwrt_docker_img.tar.gz
         ./build.sh R20.3.7
+        
+    - name: Assemble Artifact
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        find opt/imgs/docker/docker-img-openwrt-aarch64-R20.3.7.gz ./artifact/
         
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
         name: docker-img-openwrt-aarch64
-        path: opt/imgs/docker/docker-img-openwrt-aarch64-R20.3.7.gz
+        path: ./artifact/
