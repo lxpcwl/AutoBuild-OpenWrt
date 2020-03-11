@@ -1,4 +1,4 @@
-name: N1
+name: Build_x86_64
 
 on: 
   release:
@@ -11,8 +11,8 @@ on:
   #schedule:
   #  - cron: 0 8 * * 5
   
-  watch:
-    types: [started]
+  #watch:
+  #  types: [started]
 
 jobs:
   build:
@@ -21,10 +21,35 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        echo "Deleting files, please wait ..."
+        sudo rm -rf \
+          /usr/share/dotnet \
+          /etc/mysql \
+          /etc/php
+        sudo -E apt-get -y purge \
+          azure-cli \
+          ghc* \
+          zulu* \
+          hhvm \
+          llvm* \
+          firefox \
+          google* \
+          dotnet* \
+          powershell \
+          openjdk* \
+          mysql* \
+          php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install pigz
       
     - name: Make n1 docker version of openwrt mirror
       run: |
-        apt-get install pigz
         mkdir -p /opt/imgs/docker
         mkdir -p /opt/docker
         cd /opt/docker
