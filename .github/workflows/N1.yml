@@ -24,6 +24,7 @@ jobs:
       
     - name: Make n1 docker version of openwrt mirror
       run: |
+        apt-get install pigz
         mkdir -p /opt/imgs/docker
         mkdir -p /opt/docker
         cd /opt/docker
