@@ -89,16 +89,14 @@ jobs:
         mkdir -p /opt/imgs/docker
         mkdir -p /opt/docker
         
-    - name: SSH connection to Actions
-      uses: P3TERX/debugger-action@master
+    #- name: SSH connection to Actions
+    #  uses: P3TERX/debugger-action@master
         
     - name: download file
       run: |
+        cp -r openwrt/bin/targets/armvirt/64/openwrt-armvirt-64-default-rootfs.tar.gz /opt/docker
         cd /opt/docker
         wget https://github.com/lxpcwl/AutoBuild-OpenWrt/raw/master/make_opwrt_docker_img.tar.gz
-            
-    - name: unzip files & Run build.sh
-      run: |
         tar xvf make_opwrt_docker_img.tar.gz
         ./build.sh R20.3.7
         
