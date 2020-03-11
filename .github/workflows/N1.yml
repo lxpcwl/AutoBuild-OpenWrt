@@ -42,7 +42,6 @@ jobs:
         
     - name: unzip files & Run build.sh
       run: |
-        cd /opt/docker
         tar xvf make_opwrt_docker_img.tar.gz
         ./build.sh R20.3.7
         
