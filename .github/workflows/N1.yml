@@ -1,0 +1,39 @@
+name: N1
+
+on: 
+  release:
+    types: [published]
+
+  #push:
+  #  branches: 
+  #    - master
+
+  #schedule:
+  #  - cron: 0 8 * * 5
+  
+  #watch:
+  #  types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      
+    - name: Make n1 docker version of openwrt mirror
+      run: |
+        mkdir -p /opt/imgs/docker
+        mkdir -p /opt/docker
+        cd /opt/docker
+        https://github.com/lxpcwl/AutoBuild-OpenWrt/raw/master/make_opwrt_docker_img.tar.gz
+        https://github.com/lxpcwl/AutoBuild-OpenWrt/blob/master/openwrt-armvirt-64-default-rootfs.tar.gz
+        tar xvf make_opwrt_docker_img.tar.gz
+        ./build.sh R20.3.7
+        
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: docker-img-openwrt-aarch64-R20.3.7.gz
+        path: opt/imgs/docker 
