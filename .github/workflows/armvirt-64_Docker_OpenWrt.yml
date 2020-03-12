@@ -98,7 +98,7 @@ jobs:
         cd /opt/docker
         wget https://github.com/lxpcwl/AutoBuild-OpenWrt/raw/master/make_opwrt_docker_img.tar.gz
         tar xvf make_opwrt_docker_img.tar.gz
-        ./build.sh R20.3.7
+        ./build.sh R20.3.11
         
     - name : Upload artifact
       uses: actions/upload-artifact@master
