@@ -1,0 +1,37 @@
+name: meson-gxl-s905d-phicomm-n1.dtb
+
+on: 
+  release:
+    types: [published]
+
+  #push:
+  #  branches: 
+  #    - master
+
+  #schedule:
+  #  - cron: 0 8 * * 5
+  
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+      
+    - name: download file
+      run: |
+        git clone https://github.com/150balbes/Amlogic_s905-kernel.git
+        cd Amlogic_s905-kernel
+        sed -i 's/interrupts = <29 IRQ_TYPE_LEVEL_LOW>;/interrupts = <25 IRQ_TYPE_LEVEL_LOW>;/' arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dts
+        make defconfig
+        make dtbs
+        
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: meson-gxl-s905d-phicomm-n1.dtb
+        path: Amlogic_s905-kernel/arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb    
