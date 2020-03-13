@@ -1,0 +1,64 @@
+name: Build-Armbian
+
+on: 
+  release:
+    types: [published]
+
+  #push:
+  #  branches: 
+  #    - master
+
+  #schedule:
+  #  - cron: 0 8 * * 5
+  
+  #watch:
+  #  types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        echo "Deleting files, please wait ..."
+        sudo rm -rf \
+          /usr/share/dotnet \
+          /etc/mysql \
+          /etc/php
+        sudo -E apt-get -y purge \
+          azure-cli \
+          ghc* \
+          zulu* \
+          hhvm \
+          llvm* \
+          firefox \
+          google* \
+          dotnet* \
+          powershell \
+          openjdk* \
+          mysql* \
+          php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+        
+    - name: Clone source code
+      run: |
+        git clone https://github.com/150balbes/Build-Armbian
+        cd Build-Armbian && touch .ignore_changes
+        ./compile.sh BOARD=aml-s9xxx BRANCH=default RELEASE=disco BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=yes
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with: 
+        name: Armbian
+        path: Build-Armbian/output/images
+     
