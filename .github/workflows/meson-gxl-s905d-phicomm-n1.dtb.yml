@@ -24,7 +24,7 @@ jobs:
       
     - name: download file
       run: |
-        git clone https://github.com/150balbes/Amlogic_s905-kernel.git
+        git clone https://github.com/150balbes/Amlogic_s905-kernel
         cd Amlogic_s905-kernel
         sed -i 's/interrupts = <29 IRQ_TYPE_LEVEL_LOW>;/interrupts = <25 IRQ_TYPE_LEVEL_LOW>;/' arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dts
         make defconfig
