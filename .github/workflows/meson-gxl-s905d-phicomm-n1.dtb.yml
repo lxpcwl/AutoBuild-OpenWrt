@@ -33,10 +33,9 @@ jobs:
         
     - name: Compile
       run: |
-        su
         cd Amlogic_s905-kernel
-        make defconfig
-        make dtbs
+        sudo make defconfig
+        sudo make dtbs
         
     - name : Upload artifact
       uses: actions/upload-artifact@master
