@@ -26,10 +26,14 @@ jobs:
       run: |
         git clone https://github.com/150balbes/Amlogic_s905-kernel.git
         
-    - name: Compile
+    - name: Modify meson-gxl-s905d-p230.dts
       run: |
         cd Amlogic_s905-kernel
         sed -i 's/interrupts = <29 IRQ_TYPE_LEVEL_LOW>;/interrupts = <25 IRQ_TYPE_LEVEL_LOW>;/' arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dts
+        
+    - name: Compile
+      run: |
+        cd Amlogic_s905-kernel
         make defconfig
         make dtbs
         
