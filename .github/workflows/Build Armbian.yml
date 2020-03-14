@@ -1,4 +1,4 @@
-name: Build-Armbian
+name: Build Armbian
 
 on: 
   release:
@@ -54,25 +54,13 @@ jobs:
       run: |
         git clone https://github.com/150balbes/Build-Armbian
         
-    - name: Build-Armbian
+    - name: Build Armbian
       run: |
         cd Build-Armbian && touch .ignore_changes
         ./compile.sh  BOARD=aml-s9xxx BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=yes
-        
-    - name: Zip Files
-      run: |
-        gzip Build-Armbian/output/images/*.img
-        
-    - name: Assemble Artifact
-      id: assemble_artifact
-      run: |
-        rm -rf ./artifact/
-        mkdir -p ./artifact/
-        mv Build-Armbian/output/images/*.img* ./artifact/
-        zip -r artifact.zip ./artifact/
         
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with: 
         name: Armbian
-        path: ./artifact/
+        path: Build-Armbian/output/images
