@@ -56,7 +56,7 @@ jobs:
         
     - name: Build Armbian
       run: |
-        cd build
+        cd Build-Armbian
         ./compile.sh  BOARD=aml-s9xxx BRANCH=current RELEASE=bionic BUILD_MINIMAL=no BUILD_DESKTOP=no KERNEL_ONLY=no KERNEL_CONFIGURE=yes
         
     - name: Upload artifact
