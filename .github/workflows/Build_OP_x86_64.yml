@@ -84,6 +84,9 @@ jobs:
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
         
+    - name: SSH connection to Actions
+      uses: P3TERX/debugger-action@master
+        
     - name: Download package
       working-directory: ./openwrt
       run: |
