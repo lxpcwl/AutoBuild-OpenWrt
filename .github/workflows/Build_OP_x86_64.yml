@@ -63,6 +63,11 @@ jobs:
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
+    - name: Add app
+      run: |
+        cd openwrt/package/lean/
+        git clone https://github.com/fw876/helloworld
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
