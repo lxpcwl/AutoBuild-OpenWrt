@@ -11,8 +11,8 @@ on:
   #schedule:
   #  - cron: 0 8 * * 5
   
-  #watch:
-  #  types: [started]
+  watch:
+    types: [started]
 
 jobs:
   build:
@@ -52,7 +52,7 @@ jobs:
         
     - name: Clone source code
       run: |
-        git clone https://github.com/150balbes/Build-Armbian
+        git clone https://github.com/lxpcwl/Build-Armbian
         
     - name: Build Armbian
       run: |
