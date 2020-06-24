@@ -57,9 +57,7 @@ jobs:
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         sed -i '5s/#//' feeds.conf.default
-        cd package/lean
-        rm -rf luci-theme-argon
-        git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
