@@ -1,4 +1,4 @@
-name: Build_K2P
+name: K2P
 
 on: 
   release:
@@ -49,6 +49,7 @@ jobs:
         sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils  libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev python3.6 zlib1g-dev upx-ucl node-uglify antlr3 gperf
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
+
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
@@ -57,6 +58,7 @@ jobs:
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         sed -i '5s/#//' feeds.conf.default
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
@@ -71,6 +73,7 @@ jobs:
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
+
     - name: SSH connection to Actions
       uses: P3TERX/debugger-action@master
 
@@ -80,11 +83,18 @@ jobs:
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+
     - name: Build firmware
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
+
+    - name: Copy file
+      run: | 
+        cd openwrt
+        cp -r openwrt/.config openwrt/bin
+
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
