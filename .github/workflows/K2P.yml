@@ -11,8 +11,8 @@ on:
   #schedule:
   #  - cron: 0 8 * * 5
   
-  #watch:
-  #  types: [started]
+  watch:
+    types: [started]
 
 jobs:
   build:
@@ -63,14 +63,17 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-    - name: Configuration Customization - Build_K2P
+        
+    - name: Configuration Customization
       env:
         CONFIG_FILE: 'K2P.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
-        
+    #- name: SSH connection to Actions
+    #  uses: P3TERX/debugger-action@master
+
     - name: Download package
       working-directory: ./openwrt
       run: |
