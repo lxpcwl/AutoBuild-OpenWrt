@@ -93,7 +93,7 @@ jobs:
     - name: Copy file
       run: | 
         cd openwrt
-        cp -r openwrt/.config openwrt/bin
+        cp -r openwrt/.config openwrt/bin/
 
     - name : Upload artifact
       uses: actions/upload-artifact@master
